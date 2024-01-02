@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Background Remover</title>
+
+    <!-- Add Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1701972184355-d7de7849ee26?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Add your background image URL here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.555); /* Set the card background to transparent */
+        }
+        
+        .download-btn-container {
+            margin-top: 20px; /* Adjust the margin as needed */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Background Remover</h1>
+        </div>
+    </div>
+
+    <div class="container border d-flex justify-content-center">
+        <div class="">
+            <div class="m-2">
+                <div class="card ">
+                    <div class="card-body ">
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <h3 for="input_file">Choose Image File</h3>
+                                <input type="file" class="form-control-file" name="input_file" id="input_file" accept=".jpg, .jpeg, .png, .gif">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Remove Background</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="card d-flex justify-content-center">
+                    <div class="card-body">
+                        {% if output_buffer %}
+                            <h3>Output Image</h3>
+                            <img src="{{ url_for('static', filename='output.png') }}" alt="Output Image" class="img-fluid border">
+                        {% endif %}
+                    
+                        <div class="download-btn-container d-flex justify-content-center">
+                            {% if output_buffer %}
+                                <a href="{{ url_for('output_image') }}" download="output.png">
+                                    <button class="btn btn-success">Download Output Image</button>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js from CDN (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // Your existing script
+        document.querySelector('button').addEventListener('click', function() {
+            window.location.href = "{{ url_for('output_image') }}";
+        });
+    </script>
+</body>
+</html>
